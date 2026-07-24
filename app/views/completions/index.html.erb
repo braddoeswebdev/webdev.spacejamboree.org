@@ -1,0 +1,52 @@
+<% content_for :title, "Completions" %>
+
+<div class="container">
+  <div class="card">
+    <div class="card-header d-flex justify-content-between align-items-center">
+      <h1 class="mb-0"><%= i 'layer-group' %> Completions</h1>
+      <%= link_to new_completion_path, class: "btn btn-primary" do %>
+        <%= i 'plus' %> New Completion
+      <% end if Current.user.admin? %>
+    </div>
+    <div class="card-body">
+      <% if @completions.any? %>
+        <div class="row">
+          <% @completions.each do |completion| %>
+            <div class="col-12 col-md-4 col-lg-3">
+              <div class="card mb-2 text-bg-secondary">
+                <div class="card-header">
+                  <strong><%= link_to completion.requirement, completion, class: "text-reset text-decoration-none" %></strong>
+                </div>
+                <div class="card-body">
+                  <dl class="mb-0">
+                    <dt class="small text-uppercase text-secondary-emphasis">User</dt>
+                    <dd class="mb-0"><%= completion.user %></dd>
+                    <dt class="small text-uppercase text-secondary-emphasis">Artifacts</dt>
+                    <dd class="mb-0"><%= completion.artifacts %></dd>
+                    <dt class="small text-uppercase text-secondary-emphasis">Complete</dt>
+                    <dd class="mb-0"><%= completion.complete %></dd>
+                  </dl>
+                  <p class="small text-muted mt-2 mb-0">
+                    <%= i 'calendar' %> <%= time_tag completion.created_at, "data-bs-toggle": "tooltip", title: completion.created_at.strftime("%B %d, %Y at %I:%M %p") do %>
+                      <%= time_ago_in_words completion.created_at %> ago
+                    <% end %>
+                  </p>
+                </div>
+                <div class="card-footer p-1 d-flex justify-content-end gap-1">
+                  <%= link_to edit_completion_path(completion), class: "btn btn-sm btn-warning" do %>
+                    <%= i 'pencil' %>
+                  <% end if Current.user.admin? %>
+                  <%= button_to completion, method: :delete, class: "btn btn-sm btn-danger" do %>
+                    <%= i 'trash' %>
+                  <% end if Current.user.admin? %>
+                </div>
+              </div>
+            </div>
+          <% end %>
+        </div>
+      <% else %>
+        <p class="text-muted mb-0"><%= i 'ban' %> No completions yet.</p>
+      <% end %>
+    </div>
+  </div>
+</div>

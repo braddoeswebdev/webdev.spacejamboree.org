@@ -1,0 +1,17 @@
+<div id="<%= dom_id completion %>">
+  <div class="card mb-2 text-bg-secondary">
+    <div class="card-header">
+      <strong><%= link_to completion.requirement, completion, class: "text-reset text-decoration-none" %></strong>
+    </div>
+    <div class="card-body">
+      <dl class="mb-0">
+        <dt class="small text-uppercase text-secondary-emphasis">User</dt>
+        <dd class="mb-0"><%= completion.user %></dd>
+        <dt class="small text-uppercase text-secondary-emphasis">Artifacts</dt>
+        <dd class="mb-0"><%= completion.artifacts %></dd>
+        <dt class="small text-uppercase text-secondary-emphasis">Complete</dt>
+        <dd class="mb-0"><%= completion.complete %></dd>
+      </dl>
+    </div>
+  </div>
+</div>

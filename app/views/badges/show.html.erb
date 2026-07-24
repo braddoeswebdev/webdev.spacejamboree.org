@@ -1,0 +1,37 @@
+<% content_for :title, @badge.name %>
+
+<div class="container">
+  <div class="card">
+    <div class="card-header">
+      <h1 class="mb-0"><%= i 'cube' %> <%= @badge.name %></h1>
+    </div>
+    <div class="card-body">
+      <dl class="row align-items-center">
+        <div class="col-sm-3"><%= image_tag @badge.image if @badge.image.attached? %></div>
+        <div class="col-sm-9"><%= @badge.description %></div>
+      </dl>
+
+      <h2>Requirements</h2>
+
+      <dl>
+        <% @badge.requirements.order(:name).each do |req| %>
+          <dt class="mb-0"><%= req.name %></dt>
+          <dd><%= req.description %></dd>
+        <% end %>
+      </dl>
+    </div>
+    <div class="card-footer d-flex justify-content-between align-items-center">
+      <%= link_to badges_path, class: "btn btn-dark" do %>
+        <%= i 'arrow-left' %> Back to badges
+      <% end %>
+      <div class="btn-group">
+        <%= link_to edit_badge_path(@badge), class: "btn btn-warning" do %>
+          <%= i 'pencil' %> Edit
+        <% end if Current.user.admin? %>
+        <%= button_to @badge, method: :delete, class: "btn btn-danger" do %>
+          <%= i 'trash' %> Delete
+        <% end if Current.user.admin? %>
+      </div>
+    </div>
+  </div>
+</div>

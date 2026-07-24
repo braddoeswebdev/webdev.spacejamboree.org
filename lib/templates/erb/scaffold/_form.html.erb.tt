@@ -1,0 +1,19 @@
+<%%= simple_form_for(<%= singular_table_name %>) do |f| %>
+  <%%= f.error_notification %>
+  <%%= f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present? %>
+
+  <div class="form-inputs">
+<%- attributes.each do |attribute| -%>
+<%- next if attribute.password_digest? -%>
+<%- if attribute.reference? -%>
+    <%%= f.association :<%= attribute.name %><%= attribute == attributes.first ? ", input_html: { autofocus: true }" : "" %> %>
+<%- else -%>
+    <%%= f.input :<%= attribute.column_name %><%= attribute == attributes.first ? ", input_html: { autofocus: true }" : "" %> %>
+<%- end -%>
+<%- end -%>
+  </div>
+
+  <div class="form-actions mt-3">
+    <%%= f.button :submit, class: "btn btn-primary" %>
+  </div>
+<%% end %>

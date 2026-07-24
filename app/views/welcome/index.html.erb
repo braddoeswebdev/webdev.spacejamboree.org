@@ -1,0 +1,49 @@
+<% if Current.user.present? %>
+  <div class="container-fluid">
+    <div class="row my-4">
+      <div class="col-6">
+        <div class="card">
+          <div class="card-body">
+            <p>Welcome, <%= Current.user.email_address %>!</p>
+
+            <% if Current.user.workshops.any? %>
+              <p>
+                <%= Current.user.completions.count { |c| c.artifacts.body.present? } %> out of <%= Current.user.completions.count %> requirements started.
+              </p>
+              <p>
+                <%= Current.user.completions.where(complete: true).count %> out of <%= Current.user.completions.count %> requirements completed.
+              </p>
+            <% end %>
+
+            <% if Current.user.instructed_workshops.any? %>
+              <p>
+                You are an instructor for <%= pluralize Current.user.instructed_workshops.sum { |w| w.participants.count }, 'participant' %> in <%= pluralize Current.user.instructed_workshops.count, 'workshop' %>.
+              </p>
+
+              <p>
+                <%= Current.user.instructed_workshops.sum { |w| w.completions.count { |c| c.artifacts.body.present? } } %> out of <%= Current.user.instructed_workshops.sum { |w| w.completions.count } %> requirements started.
+              </p>
+
+              <p>
+                <%= Current.user.instructed_workshops.sum { |w| w.completions.where(complete: true).count } %> out of <%= Current.user.instructed_workshops.sum { |w| w.completions.count } %> requirements completed.
+              </p>
+            <% end %>
+          </div>
+        </div>
+      </div>
+      <div class="col-6">
+        <div class="card">
+          <div class="card-body">
+            <h2>Workshops</h2>
+            <% Current.user.workshops.each do |workshop| %>
+              <p><%= link_to workshop.name, workshop %></p>
+            <% end %>
+            <% Current.user.instructed_workshops.each do |workshop| %>
+              <p><%= link_to workshop.name, workshop %></p>
+            <% end %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+<% end %>

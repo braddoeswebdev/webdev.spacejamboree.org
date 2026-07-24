@@ -1,0 +1,17 @@
+<% content_for :title, "Editing completion" %>
+
+<div class="container">
+  <div class="card">
+    <div class="card-header">
+      <h1 class="mb-0"><%= i 'pencil' %> Editing Completion</h1>
+    </div>
+    <div class="card-body">
+      <%= render "form", completion: @completion %>
+    </div>
+    <div class="card-footer">
+      <%= link_to @completion, class: "btn btn-dark" do %>
+        <%= i 'arrow-left' %> Back to completion
+      <% end %>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,15 @@
+<%= simple_form_for(completion) do |f| %>
+  <%= f.error_notification %>
+  <%= f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present? %>
+
+  <div class="form-inputs">
+    <%= f.association :requirement, input_html: { autofocus: true } %>
+    <%= f.association :participation %>
+    <%= f.input :artifacts, as: :rich_text_area %>
+    <%= f.input :complete %>
+  </div>
+
+  <div class="form-actions mt-3">
+    <%= f.button :submit, class: "btn btn-primary" %>
+  </div>
+<% end %>

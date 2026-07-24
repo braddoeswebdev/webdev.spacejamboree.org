@@ -1,0 +1,17 @@
+<% content_for :title, "Editing requirement" %>
+
+<div class="container">
+  <div class="card">
+    <div class="card-header">
+      <h1 class="mb-0"><%= i 'pencil' %> Editing Requirement</h1>
+    </div>
+    <div class="card-body">
+      <%= render "form", requirement: @requirement %>
+    </div>
+    <div class="card-footer">
+      <%= link_to @requirement, class: "btn btn-dark" do %>
+        <%= i 'arrow-left' %> Back to requirement
+      <% end %>
+    </div>
+  </div>
+</div>

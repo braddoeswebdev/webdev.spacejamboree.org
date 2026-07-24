@@ -1,0 +1,44 @@
+<% content_for :title, "#{@workshop.name} — Review Submissions" %>
+
+<div class="container">
+  <div class="card mb-4">
+    <div class="card-header d-flex justify-content-between align-items-center">
+      <h1 class="mb-0"><%= i 'circle-check' %> Review Submissions for <%= @workshop.name %></h1>
+      <%= link_to @workshop, class: "btn btn-dark" do %>
+        <%= i 'arrow-left' %> Back to workshop
+      <% end %>
+    </div>
+  </div>
+
+  <% @badges.each do |badge| %>
+    <div class="card mb-4">
+      <div class="card-header">
+        <h2 class="mb-0 h4">
+          <%= image_tag badge.image, style: 'width: 1.5em;', class: 'me-2' if badge.image.attached? %>
+          <%= badge.name %>
+        </h2>
+      </div>
+      <div class="card-body">
+        <% if badge.description.present? %>
+          <div class="mb-3"><%= badge.description %></div>
+        <% end %>
+
+        <div class="list-group">
+          <% badge.requirements.each do |requirement| %>
+            <% counts = @completion_counts[requirement.id] %>
+            <%= link_to workshop_review_requirement_path(@workshop, requirement), class: "list-group-item list-group-item-action d-flex justify-content-between align-items-center text-bg-light" do %>
+              <span><%= requirement.name %></span>
+              <% if counts && counts.total > 0 %>
+                <span class="badge rounded-pill <%= counts.completed_count == counts.total ? 'bg-success' : 'bg-warning text-dark' %>">
+                  <%= counts.completed_count %> / <%= counts.total %> Complete
+                </span>
+              <% else %>
+                <span class="badge bg-secondary rounded-pill">0 / 0</span>
+              <% end %>
+            <% end %>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  <% end %>
+</div>

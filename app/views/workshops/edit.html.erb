@@ -1,0 +1,17 @@
+<% content_for :title, "Editing Workshop" %>
+
+<div class="container">
+  <div class="card">
+    <div class="card-header">
+      <h1 class="mb-0"><%= i 'pencil' %> Editing Workshop</h1>
+    </div>
+    <div class="card-body">
+      <%= render "form", workshop: @workshop %>
+    </div>
+    <div class="card-footer">
+      <%= link_to @workshop, class: "btn btn-dark" do %>
+        <%= i 'arrow-left' %> Back to workshop
+      <% end %>
+    </div>
+  </div>
+</div>

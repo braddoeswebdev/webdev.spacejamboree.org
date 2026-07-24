@@ -1,0 +1,22 @@
+
+<div class="container">
+  <div class="card text-bg-light">
+    <div class="card-header">
+      Sign In
+    </div>
+    <div class="card-body">
+      <%= form_with url: session_path do |form| %>
+        <%= form.email_field :email_address, class: 'form-control', required: true, autofocus: true, autocomplete: "username", placeholder: "Enter your email address", value: params[:email_address] %><br>
+        <%= form.password_field :password, class: 'form-control', required: true, autocomplete: "current-password", placeholder: "Enter your password", maxlength: 72 %><br>
+        <div class="row align-items-center">
+          <div class="col-4 col-lg-2">
+            <%= form.submit "Sign in", class: "btn btn-primary w-100" %>
+          </div>
+          <div class="col-8">
+            Don't have an account or forgot your password? Let your instructor know.
+          </div>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>

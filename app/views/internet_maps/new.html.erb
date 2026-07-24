@@ -1,0 +1,23 @@
+<% content_for :title, "New Internet Map" %>
+
+<div class="container">
+  <div class="card">
+    <div class="card-header">
+      <h1 class="mb-0"><%= i 'diagram-project' %> New Internet Map</h1>
+    </div>
+    <div class="card-body">
+      <p class="text-muted">
+        Create a new Internet Map for <strong><%= @workshop.name %></strong>.
+        Participants will be able to submit traceroutes and see the live graph.
+      </p>
+    </div>
+    <div class="card-footer d-flex justify-content-between">
+      <%= link_to @workshop, class: "btn btn-dark" do %>
+        <%= i 'arrow-left' %> Back
+      <% end %>
+      <%= button_to internet_maps_path(workshop_id: @workshop.id), method: :post, class: "btn btn-success" do %>
+        <%= i 'diagram-project' %> Create Map
+      <% end %>
+    </div>
+  </div>
+</div>

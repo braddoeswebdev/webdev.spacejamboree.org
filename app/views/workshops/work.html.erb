@@ -1,0 +1,42 @@
+<% content_for :title, "#{@workshop.name} — Requirements" %>
+
+<div class="container">
+  <div class="card mb-4">
+    <div class="card-header d-flex justify-content-between align-items-center">
+      <h1 class="mb-0"><%= i 'compass' %> Requirements for <%= @workshop.name %></h1>
+      <%= link_to @workshop, class: "btn btn-dark" do %>
+        <%= i 'arrow-left' %> Back to workshop
+      <% end %>
+    </div>
+  </div>
+
+  <% @badges.each do |badge| %>
+    <div class="card mb-4">
+      <div class="card-header">
+        <h2 class="mb-0 h4">
+          <%= image_tag badge.image, style: 'width: 1.5em;', class: 'me-2' if badge.image.attached? %>
+          <%= badge.name %>
+        </h2>
+      </div>
+      <div class="card-body">
+        <% if badge.description.present? %>
+          <div class="mb-3"><%= badge.description %></div>
+        <% end %>
+
+        <div class="list-group">
+          <% badge.requirements.each do |requirement| %>
+            <% completion = @completions[requirement.id] %>
+            <%= link_to workshop_work_requirement_path(@workshop, requirement), class: "list-group-item list-group-item-action d-flex justify-content-between align-items-center text-bg-light" do %>
+              <span><%= requirement.name %></span>
+              <% if completion&.complete? %>
+                <span class="badge bg-success rounded-pill"><%= i 'check' %> Done</span>
+              <% else %>
+                <span class="badge bg-warning text-dark rounded-pill"><%= i 'pencil' %> In Progress</span>
+              <% end %>
+            <% end %>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  <% end %>
+</div>

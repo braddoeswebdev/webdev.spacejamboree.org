@@ -1,0 +1,15 @@
+<div id="<%= dom_id requirement %>">
+  <div class="card mb-2 text-bg-secondary">
+    <div class="card-header">
+      <strong><%= link_to requirement.name, requirement, class: "text-reset text-decoration-none" %></strong>
+    </div>
+    <div class="card-body">
+      <dl class="mb-0">
+        <dt class="small text-uppercase text-secondary-emphasis">Badge</dt>
+        <dd class="mb-0"><%= requirement.badge %></dd>
+        <dt class="small text-uppercase text-secondary-emphasis">Description</dt>
+        <dd class="mb-0"><%= requirement.description %></dd>
+      </dl>
+    </div>
+  </div>
+</div>

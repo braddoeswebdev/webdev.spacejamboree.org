@@ -1,0 +1,85 @@
+<% content_for :title, @workshop.name %>
+
+<div class="container">
+  <div class="card">
+    <div class="card-header">
+      <h1 class="mb-0"><%= i 'location-dot' %> <%= @workshop.name %></h1>
+    </div>
+    <div class="card-body">
+      <div class="row mb-3">
+        <div class="col-md-6">
+          <dl class="row mb-0">
+            <dt class="col-sm-3"><%= i 'user' %> Instructor</dt>
+            <dd class="col-sm-9"><%= @workshop.instructor.name %></dd>
+            <dt class="col-sm-3"><%= i 'user' %> Participants</dt>
+            <dd class="col-sm-9"><%= @workshop.participants.map(&:name).join(", ") %></dd>
+
+            <% if Current.user.admin? || @workshop.instructor == Current.user %>
+              <dt class="col-sm-3"><%= i 'globe' %> Internet Map</dt>
+              <dd class="col-sm-9">
+                <% if @workshop.internet_maps.any? %>
+                  <%= link_to internet_map_path(@workshop.internet_maps.first) do %>
+                    View Map
+                  <% end %>
+                <% elsif Current.user.admin? || @workshop.instructor == Current.user %>
+                  <%= button_to internet_maps_path, params: { workshop_id: @workshop.id }, method: :post, class: "btn btn-outline-success btn-sm" do %>
+                    <%= i 'plus-large' %> Create Map
+                  <% end %>
+                <% else %>
+                  <span class="text-muted">No map yet</span>
+                <% end %>
+              </dd>
+            <% end %>
+          </dl>
+        </div>
+        <div class="col-md-6">
+          <div class="row row-gap-4">
+            <div class="col-6 col-md-4">
+                <%= link_to '#', title: 'coming soon...', class: "btn btn-lg btn-dark btn-action" do %>
+                  <%= i 'code', size: "fa-2x d-block m-auto mb-1" %> Launch Coding Tool
+                <% end %>
+              </div>
+            <% if @workshop.participants.include?(Current.user) %>
+              <div class="col-6 col-md-4">
+                <%= link_to work_workshop_path(@workshop), class: "btn btn-lg btn-success btn-action" do %>
+                  <%= i 'compass', size: "fa-2x d-block m-auto mb-1" %> Work on Requirements
+                <% end %>
+              </div>
+            <% end %>
+            <% if Current.user.admin? %>
+              <div class="col-6 col-md-4">
+                <%= link_to review_workshop_path(@workshop), class: "btn btn-lg btn-info btn-action" do %>
+                  <%= i 'circle-check', size: 'fa-2x d-block m-auto mb-1' %> Review Submissions
+                <% end %>
+              </div>
+            <% end %>
+            <% if @workshop.internet_maps.any? %>
+              <div class="col-6 col-md-4">
+                <%= link_to @workshop.internet_maps.first, class: 'btn btn-lg btn-primary btn-action' do %>
+                  <%= i 'globe', size: "fa-2x d-block m-auto mb-1" %> Internet Map Activity
+                <% end %>
+              </div>
+            <% end %>
+            <div class="col-6 col-md-4">
+              <%= link_to password_strength_path, class: 'btn btn-lg btn-danger btn-action' do %>
+                <%= i 'lock', size: "fa-2x d-block m-auto mb-1" %> Password Score Activity
+              <% end %>
+            </div>
+        </div>
+      </div>
+    </div>
+    <div class="card-footer d-flex justify-content-between align-items-center">
+      <%= link_to workshops_path, class: "btn btn-dark" do %>
+        <%= i 'arrow-left' %> Back to workshops
+      <% end %>
+      <div class="btn-group">
+        <%= link_to edit_workshop_path(@workshop), class: "btn btn-warning" do %>
+          <%= i 'pencil' %> Edit
+        <% end if Current.user.admin? %>
+        <%= button_to @workshop, method: :delete, class: "btn btn-danger" do %>
+          <%= i 'trash' %> Delete
+        <% end if Current.user.admin? %>
+      </div>
+    </div>
+  </div>
+</div>

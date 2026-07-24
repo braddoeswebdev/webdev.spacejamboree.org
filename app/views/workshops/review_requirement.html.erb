@@ -1,0 +1,60 @@
+<% content_for :title, "Review — #{@requirement.name}" %>
+
+<div class="container">
+  <div class="card mb-4">
+    <div class="card-header d-flex justify-content-between align-items-center">
+      <h1 class="mb-0 h4">
+        <%= image_tag @requirement.badge.image, style: 'width: 1.2em;', class: 'me-2' if @requirement.badge.image.attached? %>
+        Review: <%= @requirement.name %>
+      </h1>
+      <%= link_to review_workshop_path(@workshop), class: "btn btn-dark" do %>
+        <%= i 'arrow-left' %> All Requirements
+      <% end %>
+    </div>
+    <% if @requirement.description.present? %>
+      <div class="card-body border-bottom">
+        <%= @requirement.description %>
+      </div>
+    <% end %>
+  </div>
+
+  <% if @completions.any? %>
+    <% @completions.each do |completion| %>
+      <%= turbo_frame_tag dom_id(completion) do %>
+        <div class="card mb-3">
+          <div class="card-header d-flex justify-content-between align-items-center">
+            <span>
+              <%= i 'user' %>
+              <strong><%= completion.user.name %></strong>
+            </span>
+            <%= simple_form_for completion, url: completion_path(completion, return_to: request.url), method: :patch do |f| %>
+              <div class="d-flex align-items-center gap-2">
+                <%= f.input :complete, as: :boolean, label: false, wrapper: false, input_html: { onChange: "this.form.requestSubmit()" } %>
+                <span class="badge <%= completion.complete? ? 'bg-success' : 'bg-warning text-dark' %>">
+                  <%= completion.complete? ? i('check') : i('pencil') %>
+                  <%= completion.complete? ? 'Complete' : 'In Progress' %>
+                </span>
+              </div>
+            <% end %>
+          </div>
+          <div class="card-body">
+            <% if completion.artifacts.present? && completion.artifacts.body.present? %>
+              <%= completion.artifacts %>
+            <% else %>
+              <p class="text-muted mb-0"><%= i 'circle-xmark' %> No artifacts submitted yet.</p>
+            <% end %>
+          </div>
+          <div class="card-footer text-muted small">
+            <%= i 'calendar' %> Submitted <%= time_ago_in_words completion.created_at %> ago
+          </div>
+        </div>
+      <% end %>
+    <% end %>
+  <% else %>
+    <div class="card">
+      <div class="card-body text-center text-muted py-5">
+        <%= i 'ban' %> No completions found for this requirement in this workshop.
+      </div>
+    </div>
+  <% end %>
+</div>

@@ -1,0 +1,42 @@
+<%% content_for :title, @<%= singular_table_name %>.<%= attributes.first.name %> %>
+
+<div class="container">
+  <div class="card">
+    <div class="card-header">
+      <h1 class="mb-0"><%%= i 'cube' %> <%%= @<%= singular_table_name %>.<%= attributes.first.name %> %></h1>
+    </div>
+    <div class="card-body">
+      <dl class="row mb-0">
+<% attributes.reject(&:password_digest?).each do |attribute| -%>
+<% if attribute.name != attributes.first.name -%>
+<% if attribute.reference? -%>
+        <dt class="col-sm-3"><%%= i 'chalkboard-user' %> <%= attribute.human_name %></dt>
+        <dd class="col-sm-9"><%%= @<%= singular_table_name %>.<%= attribute.name %>.name %></dd>
+<% elsif attribute.type == :datetime || attribute.type == :date || attribute.type == :timestamp -%>
+        <dt class="col-sm-3"><%%= i 'calendar' %> <%= attribute.human_name %></dt>
+        <dd class="col-sm-9"><%%= time_tag @<%= singular_table_name %>.<%= attribute.name %>, "data-bs-toggle": "tooltip", title: @<%= singular_table_name %>.<%= attribute.name %>.try(:strftime, "%B %d, %Y at %I:%M %p") do %>
+          <%%= @<%= singular_table_name %>.<%= attribute.name %>.try(:strftime, "%B %d, %Y") %>
+        <%% end %></dd>
+<% else -%>
+        <dt class="col-sm-3"><%%= i 'tag' %> <%= attribute.human_name %></dt>
+        <dd class="col-sm-9"><%%= @<%= singular_table_name %>.<%= attribute.name %> %></dd>
+<% end -%>
+<% end -%>
+<% end -%>
+      </dl>
+    </div>
+    <div class="card-footer d-flex justify-content-between align-items-center">
+      <%%= link_to <%= index_helper(type: :path) %>, class: "btn btn-dark" do %>
+        <%%= i 'arrow-left' %> Back to <%= human_name.pluralize.downcase %>
+      <%% end %>
+      <div class="btn-group">
+        <%%= link_to <%= edit_helper(type: :path) %>, class: "btn btn-warning" do %>
+          <%%= i 'pencil' %> Edit
+        <%% end if Current.user.admin? %>
+        <%%= button_to @<%= singular_table_name %>, method: :delete, class: "btn btn-danger" do %>
+          <%%= i 'trash' %> Delete
+        <%% end if Current.user.admin? %>
+      </div>
+    </div>
+  </div>
+</div>

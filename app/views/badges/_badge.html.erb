@@ -1,0 +1,15 @@
+<div id="<%= dom_id badge %>">
+  <div class="card mb-2 text-bg-secondary">
+    <div class="card-header">
+      <strong><%= link_to badge.name, badge, class: "text-reset text-decoration-none" %></strong>
+    </div>
+    <div class="card-body">
+      <dl class="mb-0">
+        <dt class="small text-uppercase text-secondary-emphasis">Description</dt>
+        <dd class="mb-0"><%= badge.description %></dd>
+        <dt class="small text-uppercase text-secondary-emphasis">Image</dt>
+        <dd class="mb-0"><%= badge.image %></dd>
+      </dl>
+    </div>
+  </div>
+</div>

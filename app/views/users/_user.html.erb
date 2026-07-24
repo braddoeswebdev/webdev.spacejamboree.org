@@ -1,0 +1,19 @@
+<div id="<%= dom_id user %>">
+  <div class="card mb-2 text-bg-secondary">
+    <div class="card-header">
+      <strong><%= link_to user.email_address, user, class: "text-reset text-decoration-none" %></strong>
+    </div>
+    <div class="card-body">
+      <dl class="mb-0">
+        <dt class="small text-uppercase text-secondary-emphasis">Name</dt>
+        <dd class="mb-0"><%= user.name %></dd>
+        <dt class="small text-uppercase text-secondary-emphasis">Password</dt>
+        <dd class="mb-0"><%= user.password %></dd>
+        <dt class="small text-uppercase text-secondary-emphasis">Password confirmation</dt>
+        <dd class="mb-0"><%= user.password_confirmation %></dd>
+        <dt class="small text-uppercase text-secondary-emphasis">Admin</dt>
+        <dd class="mb-0"><%= user.admin %></dd>
+      </dl>
+    </div>
+  </div>
+</div>

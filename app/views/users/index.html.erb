@@ -1,0 +1,50 @@
+<% content_for :title, "Users" %>
+
+<div class="container">
+  <div class="card">
+    <div class="card-header d-flex justify-content-between align-items-center">
+      <h1 class="mb-0"><%= i 'users' %> Users</h1>
+      <%= link_to new_user_path, class: "btn btn-primary" do %>
+        <%= i 'plus' %> New User
+      <% end if Current.user.admin? %>
+    </div>
+    <div class="card-body">
+      <% if @users.any? %>
+        <div class="row">
+          <% @users.each do |user| %>
+            <div class="col-12 col-md-4 col-lg-3">
+              <div class="card mb-2 text-bg-secondary">
+                <div class="card-header">
+                  <strong><%= link_to user.name, user, class: "text-reset text-decoration-none" %></strong>
+                </div>
+                <div class="card-body">
+                  <dl class="mb-0">
+                    <dt class="small text-uppercase text-secondary-emphasis">Email</dt>
+                    <dd class="mb-0"><%= user.email_address %></dd>
+                    <dt class="small text-uppercase text-secondary-emphasis">Admin</dt>
+                    <dd class="mb-0"><%= user.admin %></dd>
+                  </dl>
+                  <p class="small text-muted mt-2 mb-0">
+                    <%= i 'calendar' %> <%= time_tag user.created_at, "data-bs-toggle": "tooltip", title: user.created_at.strftime("%B %d, %Y at %I:%M %p") do %>
+                      <%= time_ago_in_words user.created_at %> ago
+                    <% end %>
+                  </p>
+                </div>
+                <div class="card-footer p-1 d-flex justify-content-end gap-1">
+                  <%= link_to edit_user_path(user), class: "btn btn-sm btn-warning" do %>
+                    <%= i 'pencil' %>
+                  <% end if Current.user.admin? %>
+                  <%= button_to user, method: :delete, class: "btn btn-sm btn-danger" do %>
+                    <%= i 'trash' %>
+                  <% end if Current.user.admin? %>
+                </div>
+              </div>
+            </div>
+          <% end %>
+        </div>
+      <% else %>
+        <p class="text-muted mb-0"><%= i 'ban' %> No users yet.</p>
+      <% end %>
+    </div>
+  </div>
+</div>

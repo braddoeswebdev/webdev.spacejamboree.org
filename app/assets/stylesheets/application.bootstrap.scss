@@ -1,0 +1,125 @@
+@import "bootstrap/scss/functions";
+
+// variable overrides here
+$enable-rounded: false;
+$enable-shadows: true;
+
+
+
+@import "bootstrap/scss/variables";
+
+$list-group-bg: $gray-200;
+$dropdown-bg: $gray-200;
+
+$font-family-sans-serif: "Fira Sans", sans-serif;
+$font-family-monospace: "Fira Code", monospace;
+
+$body-bg: #13578f;
+$input-bg: $gray-200;
+$input-focus-bg: $gray-100;
+
+@import "bootstrap/scss/variables-dark";
+@import "bootstrap/scss/maps";
+@import "bootstrap/scss/mixins";
+@import "bootstrap/scss/utilities";
+
+// Layout & components
+@import "bootstrap/scss/root";
+@import "bootstrap/scss/reboot";
+@import "bootstrap/scss/type";
+@import "bootstrap/scss/images";
+@import "bootstrap/scss/containers";
+@import "bootstrap/scss/grid";
+@import "bootstrap/scss/tables";
+@import "bootstrap/scss/forms";
+@import "bootstrap/scss/buttons";
+@import "bootstrap/scss/transitions";
+@import "bootstrap/scss/dropdown";
+@import "bootstrap/scss/button-group";
+@import "bootstrap/scss/nav";
+@import "bootstrap/scss/navbar";
+@import "bootstrap/scss/card";
+// @import "bootstrap/scss/accordion";
+// @import "bootstrap/scss/breadcrumb";
+@import "bootstrap/scss/pagination";
+@import "bootstrap/scss/badge";
+@import "bootstrap/scss/alert";
+@import "bootstrap/scss/progress";
+@import "bootstrap/scss/list-group";
+@import "bootstrap/scss/close";
+@import "bootstrap/scss/toasts";
+@import "bootstrap/scss/modal";
+@import "bootstrap/scss/tooltip";
+@import "bootstrap/scss/popover";
+// @import "bootstrap/scss/carousel";
+// @import "bootstrap/scss/spinners";
+// @import "bootstrap/scss/offcanvas";
+// @import "bootstrap/scss/placeholders";
+
+// Helpers
+@import "bootstrap/scss/helpers";
+
+// Utilities
+@import "bootstrap/scss/utilities/api";
+// scss-docs-end import-stack
+
+nav.navbar {
+  margin-bottom: 1rem;
+  font-family: $font-family-monospace;
+}
+
+.card {
+  @extend .text-bg-light;
+}
+
+.card .card-header {
+  font-size: 2rem;
+  font-family: $font-family-monospace;
+  font-weight: bold;
+}
+
+.card-body *:last-child {
+  margin-bottom: 0;
+}
+
+.navbar-brand {
+  font-family: $font-family-monospace;
+  font-size: 0.66rem;
+  text-align: center;
+}
+
+.form-actions {
+  @extend .my-3;
+  @extend .mx-3;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 1rem;
+}
+
+.card-footer {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 1rem;
+}
+
+.form-check .form-check-input {
+  float: none;
+  margin-left: 0;
+  margin-right: 0.5em;
+}
+
+kbd {
+  background-color: $input-bg;
+}
+
+.btn-action {
+  @extend .px-3;
+  @extend .py-2;
+  @extend .text-center;
+  border: thin solid rgba(0, 0, 0, 0.1);
+  width: 12rem;
+}

@@ -1,0 +1,45 @@
+<% content_for :title, "Badges" %>
+
+<div class="container">
+  <div class="card">
+    <div class="card-header d-flex justify-content-between align-items-center">
+      <h1 class="mb-0"><%= i 'layer-group' %> Badges</h1>
+      <%= link_to new_badge_path, class: "btn btn-primary" do %>
+        <%= i 'plus' %> New Badge
+      <% end if Current.user.admin? %>
+    </div>
+    <div class="card-body">
+      <% if @badges.any? %>
+        <div class="row">
+          <% @badges.each do |badge| %>
+            <div class="col-12 col-md-4 col-lg-3">
+              <div class="card mb-2 text-bg-secondary">
+                <div class="card-header">
+                  <strong><%= link_to badge.name, badge, class: "text-reset text-decoration-none" %></strong>
+                </div>
+                <div class="card-body">
+                  <%= image_tag badge.image if badge.image.attached? %>
+                  <p class="small text-muted mt-2 mb-0">
+                    <%= i 'calendar' %> <%= time_tag badge.created_at, "data-bs-toggle": "tooltip", title: badge.created_at.strftime("%B %d, %Y at %I:%M %p") do %>
+                      <%= time_ago_in_words badge.created_at %> ago
+                    <% end %>
+                  </p>
+                </div>
+                <div class="card-footer p-1 d-flex justify-content-end gap-1">
+                  <%= link_to edit_badge_path(badge), class: "btn btn-sm btn-warning" do %>
+                    <%= i 'pencil' %>
+                  <% end if Current.user.admin? %>
+                  <%= button_to badge, method: :delete, class: "btn btn-sm btn-danger" do %>
+                    <%= i 'trash' %>
+                  <% end if Current.user.admin? %>
+                </div>
+              </div>
+            </div>
+          <% end %>
+        </div>
+      <% else %>
+        <p class="text-muted mb-0"><%= i 'ban' %> No badges yet.</p>
+      <% end %>
+    </div>
+  </div>
+</div>

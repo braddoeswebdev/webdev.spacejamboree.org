@@ -1,0 +1,17 @@
+<% content_for :title, "New badge" %>
+
+<div class="container">
+  <div class="card">
+    <div class="card-header">
+      <h1 class="mb-0"><%= i 'plus' %> New Badge</h1>
+    </div>
+    <div class="card-body">
+      <%= render "form", badge: @badge %>
+    </div>
+    <div class="card-footer">
+      <%= link_to badges_path, class: "btn btn-dark" do %>
+        <%= i 'arrow-left' %> Back to badges
+      <% end %>
+    </div>
+  </div>
+</div>

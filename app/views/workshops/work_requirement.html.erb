@@ -1,0 +1,30 @@
+<% content_for :title, "#{@requirement.name} — #{@workshop.name}" %>
+
+<div class="container">
+  <div class="card mb-4">
+    <div class="card-header d-flex justify-content-between align-items-center">
+      <h1 class="mb-0 h4">
+        <%= image_tag @requirement.badge.image, style: 'width: 1.2em;', class: 'me-2' if @requirement.badge.image.attached? %>
+        <%= @requirement.name %>
+      </h1>
+      <%= link_to work_workshop_path(@workshop), class: "btn btn-dark" do %>
+        <%= i 'arrow-left' %> All Requirements
+      <% end %>
+    </div>
+    <div class="card-body">
+      <% if @requirement.description.present? %>
+        <div class="mb-4"><%= @requirement.description %></div>
+      <% end %>
+
+      <%= simple_form_for @completion, url: completion_path(@completion, return_to: workshop_work_requirement_path(@workshop, @requirement)), method: :patch do |f| %>
+        <%= f.input :artifacts, as: :rich_text_area, label: "Your Artifacts" %>
+        <div class="d-flex justify-content-between align-items-center mt-3">
+          <%= f.button :submit, class: "btn btn-primary" %>
+          <% if @completion.complete? %>
+            <span class="badge bg-success fs-6"><%= i 'check' %> Complete</span>
+          <% end %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>

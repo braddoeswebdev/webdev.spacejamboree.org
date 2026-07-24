@@ -1,0 +1,30 @@
+<% content_for :title, @requirement.name %>
+
+<div class="container">
+  <div class="card">
+    <div class="card-header">
+      <h1 class="mb-0"><%= i 'cube' %> <%= @requirement.name %></h1>
+    </div>
+    <div class="card-body">
+      <dl class="row mb-0">
+        <dt class="col-sm-3"><%= i 'chalkboard-user' %> Badge</dt>
+        <dd class="col-sm-9"><%= @requirement.badge.name %></dd>
+        <dt class="col-sm-3"><%= i 'tag' %> Description</dt>
+        <dd class="col-sm-9"><%= @requirement.description %></dd>
+      </dl>
+    </div>
+    <div class="card-footer d-flex justify-content-between align-items-center">
+      <%= link_to requirements_path, class: "btn btn-dark" do %>
+        <%= i 'arrow-left' %> Back to requirements
+      <% end %>
+      <div class="btn-group">
+        <%= link_to edit_requirement_path(@requirement), class: "btn btn-warning" do %>
+          <%= i 'pencil' %> Edit
+        <% end if Current.user.admin? %>
+        <%= button_to @requirement, method: :delete, class: "btn btn-danger" do %>
+          <%= i 'trash' %> Delete
+        <% end if Current.user.admin? %>
+      </div>
+    </div>
+  </div>
+</div>
