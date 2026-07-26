@@ -1,7 +1,5 @@
 Doorkeeper::OpenidConnect.configure do
-  issuer do |_resource_owner, _application, request|
-    request&.base_url || "https://spacejamboree.org"
-  end
+  issuer "https://webdev.spacejamboree.org"
 
   signing_key ENV["OIDC_RSA_PRIVATE_KEY"] || Rails.root.join("config/keys/oidc-private.pem").read
 
