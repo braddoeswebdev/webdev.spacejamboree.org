@@ -1,8 +1,10 @@
 class User < ApplicationRecord
   has_secure_password
   has_many :sessions, dependent: :destroy
-  has_many :participations
+  has_many :participations, dependent: :destroy
   has_many :oauth_applications, class_name: "Doorkeeper::Application", as: :owner, dependent: :destroy
+  has_many :oauth_access_grants, class_name: "Doorkeeper::AccessGrant", foreign_key: :resource_owner_id, dependent: :destroy
+  has_many :oauth_access_tokens, class_name: "Doorkeeper::AccessToken", foreign_key: :resource_owner_id, dependent: :destroy
   has_many :completions, through: :participations
   has_many :workshops, through: :participations
   has_many :instructed_workshops, class_name: "Workshop", foreign_key: "instructor_id"
