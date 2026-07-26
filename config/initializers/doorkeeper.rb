@@ -2,12 +2,15 @@ Doorkeeper.configure do
   orm :active_record
 
   resource_owner_authenticator do
+    Current.session ||= Session.find_by(id: cookies.signed[:session_id]) if cookies.signed[:session_id]
     Current.session&.user || redirect_to(new_session_path)
   end
 
   admin_authenticator do
-    if Current.session&.user
-      head :forbidden unless Current.session.user.admin?
+    Current.session ||= Session.find_by(id: cookies.signed[:session_id]) if cookies.signed[:session_id]
+
+    if Current.session&.user&.admin?
+      Current.session.user
     else
       redirect_to new_session_path
     end
