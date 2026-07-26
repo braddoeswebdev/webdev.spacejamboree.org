@@ -3,7 +3,12 @@ Doorkeeper.configure do
 
   resource_owner_authenticator do
     Current.session ||= Session.find_by(id: cookies.signed[:session_id]) if cookies.signed[:session_id]
-    Current.session&.user || redirect_to(new_session_path)
+    if Current.session&.user
+      Current.session.user
+    else
+      session[:return_to_after_authenticating] = request.fullpath
+      redirect_to new_session_path
+    end
   end
 
   admin_authenticator do
@@ -26,7 +31,7 @@ Doorkeeper.configure do
   grant_flows %w[authorization_code client_credentials]
 
   skip_authorization do |resource_owner, client|
-    client.application.superapp? || resource_owner.admin?
+    resource_owner.admin?
   end
 
   allow_blank_redirect_uri true
