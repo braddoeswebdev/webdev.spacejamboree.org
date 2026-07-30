@@ -30,7 +30,7 @@ class WorkshopsController < ApplicationController
   # GET /workshops/1/review
   def review
     @badges = Badge.includes(:requirements).all
-    @completion_counts = Completion.joins(:participation)
+    @completion_counts = @workshop.completions.joins(:participation)
       .where(participation: { workshop_id: @workshop.id })
       .group(:requirement_id)
       .select("requirement_id, COUNT(*) AS total, SUM(CASE WHEN complete THEN 1 ELSE 0 END) AS completed_count")
