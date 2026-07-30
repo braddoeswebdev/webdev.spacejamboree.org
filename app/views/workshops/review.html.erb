@@ -25,26 +25,20 @@
 
         <div class="list-group">
           <% badge.requirements.each do |requirement| %>
-            <% counts = @completion_counts[requirement.id] %>
             <%= link_to workshop_review_requirement_path(@workshop, requirement), class: "list-group-item list-group-item-action d-flex justify-content-between align-items-center text-bg-light" do %>
               <span><%= requirement.name %></span>
-              <% if counts && counts.total > 0 %>
                 <span>
                   <span class="badge bg-dark">
-                    <%= i 'circle' %> <%= requirement.completions.blank.count %>
+                    <%= i 'circle' %> <%= @completions.where(requirement: requirement).blank.count %>
                   </span>
                   <span class="badge bg-warning text-dark">
-                    <%= i 'pencil' %> <%= requirement.completions.in_progress.count %>
+                    <%= i 'pencil' %> <%= @completions.where(requirement: requirement).in_progress.count %>
                   </span>
                   <span class="badge bg-primary">
-                    <%= i('check') %> <%= requirement.completions.complete.count %>
-                  </span>
-                <% else %>
-                  <span class="badge bg-secondary">
-                    <%= i 'circle-xmark' %> No Submissions
+                    <%= i('check') %> <%= @completions.where(requirement: requirement).complete.count %>
                   </span>
                 </span>
-              <% end %>
+              </span>
             <% end %>
           <% end %>
         </div>
