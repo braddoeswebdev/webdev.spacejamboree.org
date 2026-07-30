@@ -28,10 +28,18 @@
             <% completion = @completions[requirement.id] %>
             <%= link_to workshop_work_requirement_path(@workshop, requirement), class: "list-group-item list-group-item-action d-flex justify-content-between align-items-center text-bg-light" do %>
               <span><%= requirement.name %></span>
-              <% if completion&.complete? %>
-                <span class="badge bg-success rounded-pill"><%= i 'check' %> Done</span>
+              <% if completion.complete? %>
+                <span class="badge bg-success">
+                  <%= i('check') %> Complete
+                </span>
+              <% elsif completion.in_progress? %>
+                <span class="badge bg-warning text-dark">
+                  <%= i('pencil') %> In Progress
+                </span>
               <% else %>
-                <span class="badge bg-warning text-dark rounded-pill"><%= i 'pencil' %> In Progress</span>
+                <span class="badge bg-secondary">
+                  <%= i('circle') %> Not Started
+                </span>
               <% end %>
             <% end %>
           <% end %>

@@ -29,11 +29,20 @@
             </span>
             <%= simple_form_for completion, url: completion_path(completion, return_to: request.url), method: :patch do |f| %>
               <div class="d-flex align-items-center gap-2">
+                <% if completion.complete? %>
+                  <span class="badge bg-success">
+                    <%= i('check') %> Complete
+                  </span>
+                <% elsif completion.in_progress? %>
+                  <span class="badge bg-warning text-dark">
+                    <%= i('pencil') %> In Progress
+                  </span>
+                <% else %>
+                  <span class="badge bg-secondary">
+                    <%= i('circle') %> Not Started
+                  </span>
+                <% end %>
                 <%= f.input :complete, as: :boolean, label: false, wrapper: false, input_html: { onChange: "this.form.requestSubmit()" } %>
-                <span class="badge <%= completion.complete? ? 'bg-success' : 'bg-warning text-dark' %>">
-                  <%= completion.complete? ? i('check') : i('pencil') %>
-                  <%= completion.complete? ? 'Complete' : 'In Progress' %>
-                </span>
               </div>
             <% end %>
           </div>

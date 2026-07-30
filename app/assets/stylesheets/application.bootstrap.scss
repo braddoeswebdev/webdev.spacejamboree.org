@@ -17,6 +17,8 @@ $font-family-monospace: "Fira Code", monospace;
 $body-bg: #13578f;
 $input-bg: $gray-200;
 $input-focus-bg: $gray-100;
+$form-check-input-bg: $gray-200;
+$form-check-input-bg-checked: $gray-200;
 
 @import "bootstrap/scss/variables-dark";
 @import "bootstrap/scss/maps";
