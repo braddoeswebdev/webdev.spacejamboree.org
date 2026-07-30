@@ -19,7 +19,7 @@ class Completion < ApplicationRecord
   before_create :populate_artifacts
 
   def blank?
-    artifacts.blank?
+    artifacts.blank? && !complete
   end
 
   def in_progress?
