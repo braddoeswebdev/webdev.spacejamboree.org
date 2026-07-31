@@ -15,6 +15,8 @@ Rails.application.routes.draw do
   get "workshops/:id/work/:requirement_id", to: "workshops#work_requirement", as: :workshop_work_requirement
   get "workshops/:id/review/:requirement_id", to: "workshops#review_requirement", as: :workshop_review_requirement
   resource :session
+  post "users/:user_id/impersonate", to: "impersonations#create", as: :impersonate_user
+  delete "impersonation", to: "impersonations#destroy", as: :stop_impersonation
   resources :passwords, param: :token
   resources :internet_maps, only: [ :show, :new, :create ] do
     resources :traceroutes, only: [ :create ]

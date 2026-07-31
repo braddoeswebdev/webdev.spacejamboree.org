@@ -18,6 +18,9 @@
         <%= i 'arrow-left' %> Back to users
       <% end %>
       <div class="btn-group">
+        <%= button_to impersonate_user_path(@user), method: :post, class: "btn btn-info" do %>
+          <%= i 'user-secret' %> Impersonate
+        <% end if Current.user.admin? && @user != Current.user %>
         <%= link_to edit_user_path(@user), class: "btn btn-warning" do %>
           <%= i 'pencil' %> Edit
         <% end if Current.user.admin? %>

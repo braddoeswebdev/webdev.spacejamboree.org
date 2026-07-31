@@ -72,6 +72,19 @@
       </div>
     </nav>
 
+    <% if impersonating? %>
+      <div class="bg-warning py-2">
+        <div class="container d-flex justify-content-between align-items-center">
+          <span class="fw-bold">
+            <%= i 'user-secret' %> You are impersonating <%= Current.user.name %>
+          </span>
+          <%= button_to stop_impersonation_path, method: :delete, class: "btn btn-sm btn-dark" do %>
+            <%= i 'sign-out' %> Stop impersonating
+          <% end %>
+        </div>
+      </div>
+    <% end %>
+
     <% if flash.any? %>
       <div class="container my-2">
         <%= tag.div(flash[:alert], style: "color:red") if flash[:alert] %>
