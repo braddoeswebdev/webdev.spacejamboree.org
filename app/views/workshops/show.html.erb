@@ -82,4 +82,29 @@
       </div>
     </div>
   </div>
+
+  <% if Current.user.admin? %>
+    <div class="card mt-3">
+      <div class="card-header">
+        <%= i 'file-import' %> Import Roster
+      </div>
+      <div class="card-body">
+        <p class="text-muted small mb-3">
+          Upload the registration system's workshop roster CSV. Participants are matched by email,
+          named "First + last initial", and given the troop number as their password. Anyone on the
+          roster but no longer participating is removed.
+        </p>
+        <%= form_with url: import_roster_workshop_path(@workshop), method: :post, multipart: true do |f| %>
+          <div class="row g-2">
+            <div class="col-auto">
+              <%= f.file_field :roster, accept: ".csv,text/csv", required: true, class: "form-control" %>
+            </div>
+            <div class="col-auto">
+              <%= f.submit "Import roster", class: "btn btn-primary" %>
+            </div>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  <% end %>
 </div>

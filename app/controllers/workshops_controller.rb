@@ -1,5 +1,5 @@
 class WorkshopsController < ApplicationController
-  before_action :set_workshop, only: %i[show edit update destroy work work_requirement review review_requirement]
+  before_action :set_workshop, only: %i[show edit update destroy work work_requirement review review_requirement import_roster]
 
   # GET /workshops
   def index
@@ -8,6 +8,29 @@ class WorkshopsController < ApplicationController
 
   # GET /workshops/1
   def show
+  end
+
+  # POST /workshops/1/import_roster
+  def import_roster
+    unless Current.user.admin?
+      redirect_to @workshop, alert: "You are not authorized to import rosters."
+      return
+    end
+
+    roster = params[:roster]
+    if roster.blank?
+      redirect_to @workshop, alert: "Choose a roster file to import."
+      return
+    end
+
+    result = RosterImporter.new(workshop: @workshop, io: roster).import
+
+    if result.success?
+      redirect_to @workshop, notice: "Imported roster: #{result.created_users} new user(s), " \
+        "#{result.added_participations} participant(s) added, #{result.removed_participations} removed."
+    else
+      redirect_to @workshop, alert: "Roster import failed: #{result.errors.to_sentence}"
+    end
   end
 
   # GET /workshops/1/work

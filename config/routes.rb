@@ -9,6 +9,7 @@ Rails.application.routes.draw do
     member do
       get :work
       get :review
+      post :import_roster
     end
   end
   get "workshops/:id/work/:requirement_id", to: "workshops#work_requirement", as: :workshop_work_requirement
