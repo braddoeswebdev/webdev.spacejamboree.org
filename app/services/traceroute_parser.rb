@@ -28,35 +28,54 @@ class TracerouteParser
 
   def self.parse_unix(lines)
     hops = []
+    last_position = nil
 
     lines.each do |line|
+      raw = line
       line = line.strip
       next if line.empty? || line.match?(/^traceroute to /i)
 
-      if line.match?(/\A\s*\d+\s+\*\s+\*\s+\*/)
-        pos = line.match(/\A\s*(\d+)/)&.[](1)&.to_i
+      if line.match?(/\A\d+\s+\*\s+\*\s+\*/)
+        pos = line.match(/\A(\d+)/)&.[](1)&.to_i
         hops << Hop.new(position: pos, ip: nil, hostname: nil, rtt_samples: [], timed_out: true)
+        last_position = pos
         next
       end
 
-      m = line.match(/\A\s*(\d+)\s+(\S+)\s+\((\S+)\)\s+(.+)/)
-      if m
-        pos = m[1].to_i
-        hostname = m[2]
-        ip = m[3]
-        rtt_raw = m[4]
-      else
-        m = line.match(/\A\s*(\d+)\s+(\S+)\s+(.+)/)
-        raise ParseError, "Could not parse Unix line: #{line}" unless m
+      continuation = !line.match?(/\A\d+\s/)
+      if continuation
+        unless last_position
+          raise ParseError, "Could not parse Unix line: #{line}"
+        end
 
-        pos = m[1].to_i
-        hostname = nil
+        pos = last_position
+        m = line.match(/\A(\S+)\s+\((\S+)\)\s+(.+)/)
+        raise ParseError, "Could not parse Unix line: #{raw}" unless m
+
+        hostname = m[1]
         ip = m[2]
         rtt_raw = m[3]
+      else
+        m = line.match(/\A(\d+)\s+(\S+)\s+\((\S+)\)\s+(.+)/)
+        if m
+          pos = m[1].to_i
+          hostname = m[2]
+          ip = m[3]
+          rtt_raw = m[4]
+        else
+          m = line.match(/\A(\d+)\s+(\S+)\s+(.+)/)
+          raise ParseError, "Could not parse Unix line: #{raw}" unless m
+
+          pos = m[1].to_i
+          hostname = nil
+          ip = m[2]
+          rtt_raw = m[3]
+        end
       end
 
       rtts = rtt_raw.scan(/([\d.]+)\s*ms/).flatten.map(&:to_f)
       hops << Hop.new(position: pos, ip: ip, hostname: hostname, rtt_samples: rtts, timed_out: false)
+      last_position = pos
     end
 
     hops

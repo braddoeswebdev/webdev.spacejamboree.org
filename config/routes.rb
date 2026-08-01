@@ -19,7 +19,11 @@ Rails.application.routes.draw do
   delete "impersonation", to: "impersonations#destroy", as: :stop_impersonation
   resources :passwords, param: :token
   resources :internet_maps, only: [ :show, :new, :create ] do
-    resources :traceroutes, only: [ :create ]
+    resources :traceroutes, only: [ :create ] do
+      member do
+        post :retry
+      end
+    end
   end
 
   resources :network_nodes, only: [] do

@@ -87,7 +87,14 @@
                     <small class="text-danger d-block"><%= i 'circle-exclamation' %> <%= t.error_message %></small>
                   <% end %>
                 </div>
-                <%= traceroute_badge(t) %>
+                <div class="d-flex align-items-center gap-2">
+                  <% if t.failed? %>
+                    <%= button_to retry_internet_map_traceroute_path(@internet_map, t), method: :post, data: { turbo: false }, class: "btn btn-sm btn-outline-danger", title: "Re-run this traceroute", aria: { label: "Re-run #{t.target_domain}" } do %>
+                      <%= i 'arrow-rotate-right' %>
+                    <% end %>
+                  <% end %>
+                  <%= traceroute_badge(t) %>
+                </div>
               </li>
             <% end %>
           </ul>

@@ -26,6 +26,13 @@ class TraceroutesController < ApplicationController
     end
   end
 
+  def retry
+    @traceroute = @internet_map.traceroutes.find(params.expect(:id))
+    @traceroute.update!(status: :pending, error_message: nil)
+    ProcessTracerouteJob.perform_later(@traceroute)
+    redirect_to @internet_map, notice: "Traceroute re-submitted! Processing..."
+  end
+
   private
 
   def set_internet_map
