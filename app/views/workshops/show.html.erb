@@ -46,7 +46,7 @@
                 <% end %>
               </div>
             <% end %>
-            <% if Current.user.admin? %>
+            <% if Current.user.admin? || @workshop.instructor == Current.user %>
               <div class="col-6 col-md-4">
                 <%= link_to review_workshop_path(@workshop), class: "btn btn-lg btn-info btn-action" do %>
                   <%= i 'circle-check', size: 'fa-2x d-block m-auto mb-1' %> Review Submissions
